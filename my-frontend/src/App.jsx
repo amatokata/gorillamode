@@ -48,7 +48,7 @@ function AngleOutputPanel({ angles }) {
       <div className="panel-header">Joint Angles</div>
       <div className="panel-body">
         {angles.length === 0 ? (
-          <div className="empty">No angles yet — start the camera and model.</div>
+          <div className="empty">No angles yet, need to fill</div>
         ) : (
           <ul className="angles-list">
             {angles.map((a, i) => (
@@ -70,7 +70,7 @@ function FeedbackPanel({ messages }) {
       <div className="panel-header">Form Feedback</div>
       <div className="panel-body">
         {messages.length === 0 ? (
-          <div className="empty">No feedback yet — you’ll see real-time cues here.</div>
+          <div className="empty">No feedback yet, need to fill</div>
         ) : (
           <ul className="feedback-list">
             {messages.map((m, i) => (
@@ -114,7 +114,7 @@ function ModelSelector({ model, setModel, running, setRunning }) {
           {running ? "Stop" : "Start"}
         </button>
       </div>
-      <p className="muted">Swap between models for A/B testing and accuracy checks.</p>
+      <p className="muted">Swap between models for testing</p>
     </div>
   );
 }
@@ -199,7 +199,7 @@ export default function App() {
           <div className="card panel">
             <div className="panel-header">Session Notes</div>
             <div className="panel-body">
-              <p className="muted">Add timers, set/rep targets, or exercise selection here later.</p>
+              <p className="muted">Placeholder for timers, reps, etc.</p>
             </div>
           </div>
         </aside>
