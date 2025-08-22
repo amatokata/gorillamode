@@ -8,8 +8,10 @@
   --ok: #34d399;
   --info: #60a5fa;
   --border: #232735;
+
   --container-max: 2300px;
   --container-w: min(96vw, var(--container-max));
+  --gutter: clamp(16px, 4vw, 48px); /* shared horizontal gutters */
 }
 
 @media (min-width: 1700px) {
@@ -49,24 +51,28 @@ body::before {
   align-items: center; /* center the main grid */
 }
 
-/* ===== Full-bleed header bar ===== */
+/* ===== Full-bleed header bar (border + blur) ===== */
 .app-header {
-  position: relative;
-  z-index: 1;
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  width: 100vw;                             /* full-bleed background area */
+  margin-left: calc(50% - 50vw);            /* negate page centering */
   margin-right: calc(50% - 50vw);
   background: transparent;
+  border-bottom: 1px solid var(--border);   /* full-bleed divider */
+  backdrop-filter: blur(6px);
 }
 
-/* Header content */
-.app-header {
+/* Centered header content matches grid’s container + gutters */
+.header-inner {
+  width: var(--container-w);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  padding-block: 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 24px;
-  border-bottom: 1px solid var(--border);     /* full-bleed line */
-  backdrop-filter: blur(6px);
 }
 
 .brand {
@@ -85,9 +91,9 @@ body::before {
   gap: 20px;
 
   width: var(--container-w);
-  padding-inline: clamp(16px, 4vw, 48px);     /* responsive gutters */
+  padding-inline: var(--gutter);            /* match header/footer gutters */
   padding-block: 20px;
-  margin-inline: auto;                        /* ensure centering */
+  margin-inline: auto;                      /* ensure centering */
   justify-items: stretch;
   align-items: start;
 }
@@ -205,28 +211,24 @@ body::before {
 
 .muted { color: var(--muted); margin-top: 8px; font-size: 0.9rem; }
 
-/* ===== Footer (full-bleed border) ===== */
-/* Centered footer with full-bleed top border via pseudo-element */
+/* ===== Footer (centered content + full-bleed divider) ===== */
 .app-footer {
   position: relative;
-  max-width: var(--container-max);
-  width: var(--container-w);
+  width: var(--container-w);               /* same container as grid/header */
   margin: 0 auto;
-  padding: 10px 16px;
+  padding: 10px var(--gutter);             /* match gutters */
   text-align: center;
   color: var(--muted);
   font-size: 0.9rem;
 }
 
-
-/* Full-bleed divider  */
 .app-footer::before {
   content: "";
   position: absolute;
   left: 50%;
   top: 0;
   transform: translateX(-50%);
-  width: 100vw;
+  width: 100vw;                            /* full-bleed divider */
   border-top: 1px solid var(--border);
   pointer-events: none;
 }

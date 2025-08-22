@@ -14,7 +14,6 @@ function VideoFeed({ isOn, onReady }) {
         });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
-          // Let parent know when video is ready (for future pose/angles processing)
           videoRef.current.onloadedmetadata = () => {
             videoRef.current.play();
             onReady?.(videoRef.current);
@@ -36,7 +35,6 @@ function VideoFeed({ isOn, onReady }) {
   return (
     <div className="card video-card">
       <video ref={videoRef} playsInline muted className="video" />
-      {/* Optional: overlay canvas for keypoints/skeleton later */}
       {/* <canvas className="overlay" /> */}
     </div>
   );
@@ -129,10 +127,8 @@ export default function App() {
   const [angles, setAngles] = useState([]);
   const [feedback, setFeedback] = useState([]);
 
-  // When video is ready you can hook your pose/angles pipelines here
   const handleVideoReady = (videoEl) => {
-    // Example: warm-up or initialize model with videoEl
-    // For now we’ll just mock some values when "modelRunning" toggles.
+    // Hook pose/angles pipelines here
   };
 
   // Mock angle + feedback updates while model is "running"
@@ -151,11 +147,9 @@ export default function App() {
             { type: "warn", text: "Keep knees tracking over toes." },
             { type: "info", text: "Nice depth. Maintain tempo." },
           ];
-          // rotate a message for demo
           const next = msgs[Math.floor(Math.random() * msgs.length)];
           return [next, ...prev].slice(0, 5);
         });
-        // Simple demo “tier” logic
         setTier(["Bronze", "Silver", "Gold"][Math.floor(Math.random() * 3)]);
       }, 1200);
     } else {
@@ -169,13 +163,15 @@ export default function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <a className="brand" href="https://gorillamode.app/" target="_blank" rel="noreferrer">
-          Gorilla Mode
-        </a>
-        <div className="header-actions">
-          <button className="btn-outline" onClick={() => setCameraOn((v) => !v)}>
-            {cameraOn ? "Turn Camera Off" : "Turn Camera On"}
-          </button>
+        <div className="header-inner">
+          <a className="brand" href="https://gorillamode.app/" rel="noreferrer">
+            Gorilla Mode
+          </a>
+          <div className="header-actions">
+            <button className="btn-outline" onClick={() => setCameraOn((v) => !v)}>
+              {cameraOn ? "Turn Camera Off" : "Turn Camera On"}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -204,7 +200,10 @@ export default function App() {
           </div>
         </aside>
       </main>
-      <footer className="app-footer">© {new Date().getFullYear()} Gorilla Mode</footer>
+
+      <footer className="app-footer">
+        © {new Date().getFullYear()} Gorilla Mode
+      </footer>
     </div>
   );
 }
